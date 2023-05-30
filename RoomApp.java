@@ -1,4 +1,4 @@
-import javax.print.attribute.standard.OrientationRequested;
+import javax.crypto.spec.DESKeySpec;
 
 public class RoomApp {
     private int[][] grid;
@@ -15,41 +15,41 @@ public class RoomApp {
     }
 
     // Constructeur avec une grille spécifique en double parametre
-    public RoomApp(int gridSize) {
-        this.grid = new int[gridSize][gridSize];
+    public RoomApp(int x, int y) {
+        this.grid = new int[x][y];
         this.x = 0;
         this.y = 0;
         this.orientation = Orientation.Nord;
     }
 
     // Méthode pour modifier l'orientation de l'objet selon mouvement vers la guache ou la droite
-    public void turn(String laterality) {
+    public void turn(char laterality) {
         switch (orientation) {
             case Nord:
-                if (laterality == "G") {
+                if (laterality == 'G') {
                     this.orientation = Orientation.Ouest;
-                } else if (laterality == "D"){
+                } else if (laterality == 'D'){
                     this.orientation = Orientation.Est;
                 }
                 break;
             case Est:
-            if (laterality == "G") {
+            if (laterality == 'G') {
                 this.orientation = Orientation.Nord;
-            } else if (laterality == "D"){
+            } else if (laterality == 'D'){
                 this.orientation = Orientation.Sud;
             }
                 break;
             case Sud:
-            if (laterality == "G") {
+            if (laterality == 'G') {
                 this.orientation = Orientation.Est;
-            } else if (laterality == "D"){
+            } else if (laterality == 'D'){
                 this.orientation = Orientation.Ouest;
             }
                 break;
             case Ouest:
-            if (laterality == "G") {
+            if (laterality == 'G') {
                 this.orientation = Orientation.Sud;
-            } else if (laterality == "D"){
+            } else if (laterality == 'D'){
                 this.orientation = Orientation.Nord;
             }
                 break;
@@ -100,9 +100,11 @@ public class RoomApp {
         if (init.equals("y")||init.equals("Y")){
             newCleaning = new RoomApp();
         } else {
-            System.out.print("Indiquer la taille de la grille :"); 
-            Integer gridSize = entree.nextInt();
-            newCleaning = new RoomApp(gridSize);
+            System.out.print("Indiquer la hauteur de la grille :"); 
+            Integer Y = entree.nextInt();  
+            System.out.print("Indiquer la largeur de la grille :"); 
+            Integer X = entree.nextInt();  
+            newCleaning = new RoomApp(X,Y);
         }
         System.out.print("Voulez vous commencer à la position 0 0 orientation Nord (Y/N) ?: ");
         init = entree.next();
@@ -113,7 +115,7 @@ public class RoomApp {
             System.out.print("Indiquer la position x de RoomJava entre 0 et " + newCleaning.grid.length + " : "); 
             Integer x = entree.nextInt();
             newCleaning.x = x;
-            System.out.print("Indiquer la position y de RoomJava entre 0 et " + newCleaning.grid.length + " : "); 
+            System.out.print("Indiquer la position y de RoomJava entre 0 et " + newCleaning.grid[0].length + " : "); 
             Integer y = entree.nextInt();
             newCleaning.y = y;
             System.out.print("Indiquer l'orientation de RoomJava : "); 
@@ -122,15 +124,19 @@ public class RoomApp {
             System.out.println("Position initiale : (" + newCleaning.x + ", " + newCleaning.y + ")");
             System.out.println("Orientation initiale : " + newCleaning.orientation);
         }
-        //test
-        newCleaning.turn("D");
-        newCleaning.move();
-        System.out.println("Nouvelle position : (" + newCleaning.x + ", " + newCleaning.y + ")");
-        System.out.println("Orientation initiale : " + newCleaning.orientation);
 
-        newCleaning.turn("D");
-        newCleaning.move();
-        System.out.println("Nouvelle position : (" + newCleaning.x + ", " + newCleaning.y + ")");
-        System.out.println("Orientation initiale : " + newCleaning.orientation);
+        System.out.print("Merci de fournir les instructions D (droite) G (gauche) A (avancer) sans espace et en majuscule: ");
+        String instructions = entree.next();
+        //on créé un array avec les character D G ou A
+        char[] instructionArray = instructions.toCharArray();
+        // On lance les méthodes de classe pour chaque instruction
+        for (char instruction : instructionArray) {
+            if (instruction == 'D'|| instruction == 'G'){
+                newCleaning.turn(instruction);
+            } else if (instruction == 'A'){
+                newCleaning.move();
+            }
+        System.out.println("Nouvelle position et orientation: (" + newCleaning.x + ", " + newCleaning.y + ")"+ newCleaning.orientation);
+        }
     }
 }
