@@ -129,9 +129,17 @@ public class RoomApp {
                     }
                 }
                 newCleaning.x = x;
-                System.out.print("Indiquer la position y de RoomJava entre 0 et " + newCleaning.grid[0].length + " : "); 
-                Integer y = entree.nextInt();
+                validEntry = false;
+                Integer y = null;
+                while (!validEntry){
+                    System.out.print("Indiquer la position y de RoomJava entre 0 et " + newCleaning.grid[0].length + " : "); 
+                    y = entree.nextInt();
+                    if (y>=0 && x <= newCleaning.grid[0].length){
+                        validEntry = true;
+                    }
+                }
                 newCleaning.y = y;
+                validEntry = false;
                 System.out.print("Indiquer l'orientation de RoomJava (N, S, E ou O): "); 
                 String orientation = entree.next();
                 newCleaning.orientation = Orientation.valueOf(orientation);  
